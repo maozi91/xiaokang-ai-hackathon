@@ -1,5 +1,6 @@
 /* 校康AI 全局主题：主色调 #409EFF */
 :root {
+  /* Element Plus 主色与圆角规范 */
   --el-color-primary: #409eff;
   --el-color-primary-light-3: #79bbff;
   --el-color-primary-light-5: #a0cfff;
@@ -7,30 +8,54 @@
   --el-color-primary-light-8: #d9ecff;
   --el-color-primary-light-9: #ecf5ff;
   --el-color-primary-dark-2: #337ecc;
+  --el-border-radius-base: 10px;
+  --el-border-radius-small: 8px;
+  --el-border-radius-round: 999px;
+  --el-font-size-base: 14px;
+  --el-text-color-primary: #1f2d3d;
+  --el-text-color-regular: #5c6b80;
+  --el-text-color-secondary: #8a97a8;
+  --el-border-color-lighter: #eef3fa;
+  --el-fill-color-light: #f7fbff;
 
+  /* 项目设计变量 */
   --app-bg: #f5f7fa;
-  --text-main: #303133;
-  --text-regular: #606266;
-  --text-sub: #909399;
-  --border-light: #ebeef5;
+  --text-main: #1f2d3d;
+  --text-regular: #5c6b80;
+  --text-sub: #8a97a8;
+  --border-light: #e6eef8;
+  --xk-radius-card: 20px;
+  --xk-radius-control: 12px;
+  --xk-space-page: 32px;
+  --xk-space-section: 20px;
+  --xk-shadow-card: 0 10px 28px rgba(31, 45, 61, 0.05);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 html,
 body,
 #app {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
 }
 
 body {
   color: var(--text-main);
   font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
   background: var(--app-bg);
+  overflow-x: hidden;
+  overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
@@ -46,6 +71,88 @@ a {
   text-decoration: none;
 }
 
+img,
+video,
+canvas {
+  max-width: 100%;
+}
+
+/* Element Plus 统一卡片、按钮与表单规范 */
+.el-card {
+  border-color: var(--border-light);
+  border-radius: var(--xk-radius-card);
+}
+
+.el-card__header {
+  padding: 18px 22px;
+}
+
+.el-card__body {
+  padding: 22px;
+}
+
+.el-button {
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.el-button--large {
+  min-height: 44px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.el-button--default {
+  min-height: 36px;
+}
+
+.el-input__wrapper,
+.el-select__wrapper,
+.el-textarea__inner {
+  border-radius: var(--xk-radius-control);
+}
+
+.el-form-item__label {
+  color: var(--text-regular);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.el-tag {
+  border-radius: 999px;
+}
+
+.el-alert {
+  border-radius: 12px;
+}
+
+.el-empty__description p {
+  color: var(--text-sub);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.el-progress-bar__outer,
+.el-progress-bar__inner {
+  border-radius: 999px;
+}
+
+/* 通用页面留白与文本溢出保护 */
+.page,
+.posture-page,
+.sleep-page,
+.diet-page,
+.emotion-page {
+  width: 100%;
+}
+
+.summary-item strong,
+.card-title,
+.report-time,
+.message-bubble {
+  overflow-wrap: anywhere;
+}
+
 /* 占位页面通用样式 */
 .page {
   width: 100%;
@@ -53,7 +160,8 @@ a {
 
 .placeholder-card {
   border: 1px solid var(--border-light);
-  border-radius: 16px;
+  border-radius: var(--xk-radius-card);
+  box-shadow: var(--xk-shadow-card);
 }
 
 .placeholder-card .el-card__body {
@@ -101,4 +209,47 @@ a {
 
 .placeholder-card .el-empty {
   padding: 36px 0 20px;
+}
+
+/* 移动端统一触控尺寸与输入字号 */
+@media (max-width: 560px) {
+  .el-card__header {
+    padding: 15px 16px;
+  }
+
+  .el-card__body {
+    padding: 16px;
+  }
+
+  .el-button--large {
+    min-height: 46px;
+  }
+
+  .el-input__inner,
+  .el-textarea__inner,
+  .el-select__wrapper {
+    font-size: 16px;
+  }
+
+  .el-form-item__label {
+    font-size: 12px;
+  }
+
+  .el-message {
+    max-width: calc(100vw - 32px);
+  }
+
+  .page-title {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 375px) {
+  .el-card__body {
+    padding: 14px;
+  }
+
+  .el-button {
+    max-width: 100%;
+  }
 }

@@ -452,9 +452,16 @@ async function startDetection() {
     progress.value = 0
 
     // 骨架叠加与倒计时并行：CDN 不可用时倒计时和评分仍然继续
-    initPose().then((ready) => {
-      if (ready && isDetecting.value) startPoseLoop()
-    })
+    initPose()
+      .then((ready) => {
+        if (ready && isDetecting.value) startPoseLoop()
+      })
+      .catch((error) => {
+        // 兜底捕获骨架初始化异常，保证检测流程不中断
+        console.error('[posture] 骨架初始化异常：', error)
+        poseReady.value = false
+        poseHint.value = '骨架识别不可用，已使用模拟检测'
+      })
 
     startCountdown()
   } catch (error) {
@@ -1013,8 +1020,8 @@ onBeforeUnmount(() => {
 .camera-card,
 .metrics-card,
 .report-card {
-  border: 1px solid #e6eef8;
-  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--xk-radius-card);
   background: #ffffff;
 }
 
@@ -1542,6 +1549,7 @@ onBeforeUnmount(() => {
 
   .action-row .el-button {
     width: 100%;
+    min-height: 46px;
   }
 
   .report-card :deep(.el-card__body) {
@@ -1550,6 +1558,67 @@ onBeforeUnmount(() => {
 
   .report-score {
     align-items: center;
+  }
+
+  .content-grid {
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .report-card {
+    margin-top: 16px;
+  }
+
+  .card-title {
+    flex-wrap: wrap;
+    font-size: 14px;
+  }
+
+  .report-time {
+    text-align: left;
+  }
+
+  .page-footer {
+    margin-top: 16px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero {
+    padding: 18px;
+  }
+
+  .hero h1 {
+    margin-top: 12px;
+    font-size: 22px;
+  }
+
+  .hero-desc {
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .hero-badge {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .privacy-alert {
+    margin-top: 14px;
+  }
+
+  .report-block h3 {
+    font-size: 14px;
+  }
+
+  .report-body {
+    gap: 20px;
+  }
+
+  .advice-text {
+    padding: 14px;
+    font-size: 12.5px;
   }
 }
 </style>

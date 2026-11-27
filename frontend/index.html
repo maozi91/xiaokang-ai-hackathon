@@ -14,9 +14,45 @@
       crossorigin="anonymous"
       async
     ></script>
+    <style>
+      /* 首屏兜底：脚本加载较慢或失败时避免出现纯白页面 */
+      .boot-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        min-height: 100vh;
+        font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      }
+
+      .boot-logo {
+        display: grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #409eff, #337ecc);
+        color: #ffffff;
+        font-size: 24px;
+        font-weight: 700;
+        box-shadow: 0 10px 24px rgba(64, 158, 255, 0.28);
+      }
+
+      .boot-screen p {
+        margin: 0;
+        color: #909399;
+        font-size: 13px;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="boot-screen" role="status" aria-live="polite">
+        <div class="boot-logo">康</div>
+        <p>校康AI 正在加载，请稍候...</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

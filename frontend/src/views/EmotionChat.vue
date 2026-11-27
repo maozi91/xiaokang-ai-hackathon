@@ -110,6 +110,18 @@ onMounted(() => {
 
 <template>
   <section class="emotion-page">
+    <!-- 页面顶部引导 -->
+    <header class="emotion-hero">
+      <div class="emotion-hero-icon">
+        <el-icon :size="24"><ChatDotRound /></el-icon>
+      </div>
+      <div class="emotion-hero-copy">
+        <span class="emotion-kicker">EMOTION SUPPORT</span>
+        <h1>情绪树洞</h1>
+        <p>这里没有评判，慢慢说，小暖会认真听。</p>
+      </div>
+    </header>
+
     <div class="chat-shell">
       <header class="chat-header">
         <div class="chat-identity">
@@ -212,12 +224,62 @@ onMounted(() => {
 .emotion-page {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   width: 100%;
-  height: clamp(480px, calc(100vh - 240px), 760px);
-  height: clamp(480px, calc(100dvh - 240px), 760px);
+  height: clamp(560px, calc(100vh - 220px), 840px);
+  height: clamp(560px, calc(100dvh - 220px), 840px);
   min-height: 0;
   color: #1f2d3d;
+}
+
+/* 顶部引导 */
+.emotion-hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: none;
+  padding: 18px 22px;
+  border: 1px solid #d9ecff;
+  border-radius: var(--xk-radius-card);
+  background:
+    radial-gradient(circle at 92% 10%, rgba(64, 158, 255, 0.12), transparent 38%),
+    linear-gradient(135deg, #f4f9ff 0%, #ffffff 72%);
+}
+
+.emotion-hero-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #ecf5ff;
+  color: var(--el-color-primary);
+}
+
+.emotion-hero-copy {
+  min-width: 0;
+}
+
+.emotion-kicker {
+  color: var(--el-color-primary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.emotion-hero h1 {
+  margin: 4px 0 3px;
+  color: var(--text-main);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.emotion-hero p {
+  color: var(--text-sub);
+  font-size: 12.5px;
+  line-height: 1.6;
 }
 
 .chat-shell {
@@ -226,8 +288,8 @@ onMounted(() => {
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  border: 1px solid #e6eef8;
-  border-radius: 24px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--xk-radius-card);
   background: #ffffff;
   box-shadow: 0 18px 44px rgba(64, 158, 255, 0.08);
 }
@@ -536,12 +598,12 @@ onMounted(() => {
 /* 移动端适配 */
 @media (max-width: 900px) {
   .emotion-page {
-    height: clamp(440px, calc(100vh - 260px), 640px);
-    height: clamp(440px, calc(100dvh - 260px), 640px);
+    height: clamp(540px, calc(100vh - 240px), 700px);
+    height: clamp(540px, calc(100dvh - 240px), 700px);
   }
 
   .chat-shell {
-    border-radius: 20px;
+    border-radius: var(--xk-radius-card);
   }
 
   .chat-messages {
@@ -554,6 +616,31 @@ onMounted(() => {
 }
 
 @media (max-width: 560px) {
+  .emotion-page {
+    gap: 14px;
+    height: clamp(520px, calc(100vh - 240px), 680px);
+    height: clamp(520px, calc(100dvh - 240px), 680px);
+  }
+
+  .emotion-hero {
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  .emotion-hero-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+  }
+
+  .emotion-hero h1 {
+    font-size: 22px;
+  }
+
+  .emotion-hero p {
+    font-size: 12px;
+  }
+
   .chat-header {
     padding: 12px 14px;
   }
@@ -600,7 +687,8 @@ onMounted(() => {
   }
 
   .send-btn {
-    height: 36px;
+    height: 40px;
+    min-width: 64px;
     padding: 0 12px;
     border-radius: 11px;
     font-size: 13px;
@@ -617,6 +705,56 @@ onMounted(() => {
   .disclaimer {
     padding-top: 0;
     font-size: 11px;
+  }
+}
+
+@media (max-width: 400px) {
+  .emotion-page {
+    gap: 12px;
+    height: clamp(500px, calc(100dvh - 230px), 640px);
+  }
+
+  .emotion-hero {
+    padding: 12px 14px;
+  }
+
+  .emotion-hero-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .emotion-hero h1 {
+    font-size: 20px;
+  }
+
+  .emotion-hero p {
+    font-size: 11.5px;
+  }
+
+  .chat-header {
+    padding: 10px 12px;
+  }
+
+  .chat-name {
+    font-size: 14px;
+  }
+
+  .chat-status {
+    font-size: 10px;
+  }
+
+  .composer {
+    padding: 8px 8px 10px;
+  }
+
+  .send-btn {
+    min-width: 58px;
+    padding: 0 10px;
+  }
+
+  .disclaimer {
+    font-size: 10.5px;
+    line-height: 1.55;
   }
 }
 </style>

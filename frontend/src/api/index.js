@@ -9,4 +9,18 @@ const api = axios.create({
   }
 })
 
+// 统一记录接口异常；具体页面仍需各自 catch 并给出用户提示
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('[api error]', {
+      url: error?.config?.url,
+      method: error?.config?.method,
+      status: error?.response?.status,
+      message: error?.message
+    })
+    return Promise.reject(error)
+  }
+)
+
 export default api

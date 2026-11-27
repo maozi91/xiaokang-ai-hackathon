@@ -1,24 +1,42 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { onErrorCaptured, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
 const activeTab = ref(route.path)
+const pageError = ref(false)
 
-// 路由变化时同步高亮 Tab（例如直接输入 URL 或刷新页面）
+// 路由变化时同步高亮 Tab，并重置页面异常状态
 watch(
   () => route.path,
   (path) => {
     activeTab.value = path
+    pageError.value = false
   }
 )
 
-// 点击 Tab 时切换路由
-function handleTabChange(name) {
-  if (name !== route.path) {
-    router.push(name)
+// 点击 Tab 时切换路由，捕获懒加载或导航异常
+async function handleTabChange(name) {
+  if (name === route.path) return
+
+  try {
+    await router.push(name)
+  } catch (error) {
+    console.error('[tab navigation]', error)
+    activeTab.value = route.path
   }
+}
+
+// 页面级错误边界：单个页面渲染异常时展示兜底内容，避免整页白屏
+onErrorCaptured((error) => {
+  console.error('[page error]', error)
+  pageError.value = true
+  return false
+})
+
+function reloadPage() {
+  window.location.reload()
 }
 </script>
 
@@ -46,10 +64,20 @@ function handleTabChange(name) {
     </header>
 
     <main class="app-main">
-      <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-          <component :is="Component" />
-        </transition>
+      <div v-if="pageError" class="page-fallback">
+        <el-result
+          icon="error"
+          title="页面加载异常"
+          sub-title="请刷新页面，或切换到其他模块后重试"
+        >
+          <template #extra>
+            <el-button type="primary" @click="reloadPage">重新加载</el-button>
+          </template>
+        </el-result>
+      </div>
+
+      <router-view v-else v-slot="{ Component }">
+        <component :is="Component" />
       </router-view>
     </main>
 
@@ -76,11 +104,11 @@ function handleTabChange(name) {
 .header-inner {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 32px;
   max-width: 1280px;
   height: 72px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 36px;
 }
 
 .brand {
@@ -109,6 +137,10 @@ function handleTabChange(name) {
   font-size: 17px;
   font-weight: 700;
   letter-spacing: 0.01em;
+}
+
+.brand-text {
+  min-width: 0;
 }
 
 .brand-text p {
@@ -149,29 +181,25 @@ function handleTabChange(name) {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 32px;
+  padding: 36px 36px 44px;
+}
+
+.page-fallback {
+  display: grid;
+  place-items: center;
+  min-height: 360px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--xk-radius-card);
+  background: #ffffff;
+  box-shadow: var(--xk-shadow-card);
 }
 
 .app-footer {
-  padding: 18px 32px 26px;
+  padding: 18px 32px 28px;
   color: #a8abb2;
   font-size: 12px;
+  line-height: 1.7;
   text-align: center;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.18s ease, transform 0.18s ease;
-}
-
-.fade-enter-from {
-  opacity: 0;
-  transform: translateY(8px);
-}
-
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
 }
 
 @media (max-width: 900px) {
@@ -179,7 +207,7 @@ function handleTabChange(name) {
     flex-wrap: wrap;
     height: auto;
     gap: 8px 20px;
-    padding: 12px 20px;
+    padding: 12px 24px;
   }
 
   .nav-tabs {
@@ -189,15 +217,69 @@ function handleTabChange(name) {
 
   .nav-tabs :deep(.el-tabs__item) {
     height: 46px;
-    padding: 0 14px;
+    padding: 0 16px;
   }
 
   .app-main {
-    padding: 20px;
+    padding: 24px 24px 32px;
   }
 
   .status-tag {
     margin-left: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .header-inner {
+    gap: 8px 12px;
+    padding: 10px 16px;
+  }
+
+  .brand {
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .brand-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 18px;
+  }
+
+  .brand-text h1 {
+    max-width: 210px;
+    overflow: hidden;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .brand-text p {
+    display: none;
+  }
+
+  .status-tag {
+    display: none;
+  }
+
+  .nav-tabs :deep(.el-tabs__item) {
+    height: 42px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .app-main {
+    padding: 16px 14px 28px;
+  }
+
+  .app-footer {
+    padding: 16px 14px 24px;
+    font-size: 11px;
+  }
+
+  .page-fallback {
+    min-height: 300px;
   }
 }
 </style>

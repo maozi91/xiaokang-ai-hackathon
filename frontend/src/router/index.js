@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 const routes = [
   {
@@ -46,6 +47,12 @@ const router = createRouter({
 router.afterEach((to) => {
   const title = (to.meta && to.meta.title) || '校园健康助手'
   document.title = `${title} · 校康AI`
+})
+
+// 路由懒加载失败时给出提示，避免切换页面后只看到空白
+router.onError((error) => {
+  console.error('[router error]', error)
+  ElMessage.error('页面加载失败，请检查网络后刷新重试')
 })
 
 export default router

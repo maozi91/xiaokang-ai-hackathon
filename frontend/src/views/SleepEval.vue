@@ -617,8 +617,8 @@ async function handleSubmit() {
 .form-card,
 .result-card {
   margin-top: 20px;
-  border: 1px solid #e6eef8;
-  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--xk-radius-card);
   background: #ffffff;
 }
 
@@ -993,6 +993,65 @@ async function handleSubmit() {
 
   .report-time {
     text-align: left;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero {
+    padding: 18px;
+  }
+
+  .hero h1 {
+    font-size: 22px;
+  }
+
+  .hero-tags {
+    gap: 6px;
+  }
+
+  .form-card,
+  .result-card {
+    margin-top: 16px;
+  }
+
+  .form-card :deep(.el-card__body),
+  .result-card :deep(.el-card__body) {
+    padding: 14px;
+  }
+
+  .card-title {
+    flex-wrap: wrap;
+    font-size: 14px;
+  }
+
+  .submit-btn {
+    min-height: 46px;
+  }
+
+  .report-summary {
+    padding: 14px;
+  }
+
+  .summary-item strong {
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .advice-block {
+    padding: 14px;
+  }
+
+  .advice-head h3 {
+    font-size: 14px;
+  }
+
+  .advice-list li {
+    font-size: 12.5px;
+  }
+
+  .page-footer {
+    margin-top: 16px;
+    font-size: 11px;
   }
 }
 </style>
