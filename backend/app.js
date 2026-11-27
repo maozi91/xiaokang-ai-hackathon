@@ -6,6 +6,8 @@
 const express = require('express')
 const cors = require('cors')
 
+const aiRouter = require('./routes/ai')
+
 const app = express()
 const PORT = 3000
 
@@ -33,6 +35,9 @@ app.get('/api/health', (req, res) => {
     time: new Date().toISOString()
   })
 })
+
+// 模拟 AI 聊天接口（原型演示，不调用外部大模型、无密钥）
+app.use('/api/ai', aiRouter)
 
 // 404 处理
 app.use((req, res) => {
