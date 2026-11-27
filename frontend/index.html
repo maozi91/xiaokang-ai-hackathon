@@ -8,6 +8,12 @@
       content="校康AI - 面向大学生的校园健康助手：体态检测、作息评估、饮食建议、情绪树洞"
     />
     <title>校康AI · 校园健康助手</title>
+    <!-- MediaPipe Pose 通过 CDN 引入，不参与 npm 安装；async 避免阻塞页面启动 -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/pose.js"
+      crossorigin="anonymous"
+      async
+    ></script>
   </head>
   <body>
     <div id="app"></div>
